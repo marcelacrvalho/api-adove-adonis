@@ -4,6 +4,17 @@
 const Model = use('Model')
 
 class Client extends Model {
+    static get traits() {
+        return ['App/Models/Traits/NoTimestamp']
+    }
+    
+    user() {
+        return this.belongsTo('App/Models/User')
+    }
+    
+    events() {
+        return this.hasMany('App/Models/Event')
+    }
 }
 
 module.exports = Client
