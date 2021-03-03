@@ -13,7 +13,7 @@ class ServiceSchema extends Schema {
       table.string('description', 30)
       table.string('result', 35)
 
-      table.foreign('store_id').references('id').onTable('stores').onDelete('cascade').onUpdate('cascade')
+      table.foreign('store_id').references('id').inTable('stores').onDelete('cascade').onUpdate('cascade')
     })
   }
 
