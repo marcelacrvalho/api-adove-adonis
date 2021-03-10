@@ -8,7 +8,7 @@ const Store = use('App/Models/Store')
 
 class StoreController {
     async index({ request, response, view }) {
-        const search = request.input('category')
+        const search = request.input('search')
         const query = Store.query()
         if (search) {
             query.where('category', 'ILIKE', `%${search}%`)
