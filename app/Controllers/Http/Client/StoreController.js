@@ -11,8 +11,7 @@ class StoreController {
         const search = request.input('search')
         const query = Store.query()
         if (search) {
-            query.where('category', 'ILIKE', `%${search}%`)
-            query.orWhere('name', 'ILIKE', `%${search}%`)
+            query.where('category', 'WHERE', `%${search}%`)
             query.orWhere('city', 'ILIKE', `%${search}%`)
         }
         const stores = await query.with('services').fetch()
