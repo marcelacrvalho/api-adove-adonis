@@ -15,10 +15,10 @@ class UserController {
       }
 
     async show({ params: { id }, request, response, view }) {
-        const user = await User.findOrFail(id).fetch()
+        const user = await User.findOrFail(id)
         return response.send(user)
     }
-
+ 
     async update({ params: { id }, request, response }) {
         const user = await User.findOrFail(id)
         const { email, password } = request.only()

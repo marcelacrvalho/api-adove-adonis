@@ -24,7 +24,7 @@ class PaymentStoreController {
     }
 
     async show({ params: { id }, request, response, view }) {
-        const paymentStore = await PaymentStore.findOrFail(id).fetch()
+        const paymentStore = await PaymentStore.findOrFail(id)
         return response.send(paymentStore)
     }
 

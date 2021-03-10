@@ -27,7 +27,7 @@ class StoreController {
     }
 
     async show({ params: { id }, request, response, view }) {
-        const store = await Store.findOrFail(id).with('services').fetch()
+        const store = await Store.findOrFail(id).with('services')
         return response.send(store)
     }
 

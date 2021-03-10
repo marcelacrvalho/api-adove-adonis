@@ -23,7 +23,7 @@ class EventController {
   }
 
   async show({ params: { id }, request, response, view }) {
-    const event = await Event.findOrFail(id).with('store').with('service').fetch()
+    const event = await Event.findOrFail(id).with('store').with('service')
     return response.send(event)
   }
 
