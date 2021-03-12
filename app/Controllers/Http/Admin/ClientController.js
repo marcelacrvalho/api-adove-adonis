@@ -1,23 +1,23 @@
 'use strict'
 
-const User = use('App/Models/User')
+const Client = use('App/Models/Client')
 
-class UserController {
+class ClientController {
     async index({ request, response }) {
         const search = request.input('search')
-        const query = User.query()
+        const query = Client.query()
         if (search) {
             query.where('name', 'ILIKE', `%${search}%`)
         }
-        const users = await query.fetch()
-        response.send(users)
+        const clients = await query.fetch()
+        response.send(clients)
     }
 
     async store({ request, response }) {
         try {
-            const { email, password, role } = request.all()
-            const newUser = User.create({ email, password, role })
-            return response.status(201).send(newUser)
+            const { user_id, name, state, city, neighborhood, street, number, reference } = request.all()
+            const client = Client.create({ user_id, name, state, city, neighborhood, street, number, reference })
+            return response.status(201).send(client)
         } catch (error) {
             return response.status(400).send({
                 message: 'Erro ao se conectar com o banco de dados'
@@ -26,17 +26,17 @@ class UserController {
     }
 
     async show({ params: { id }, request, response }) {
-        const user = await User.findOrFail(id)
-        return response.send(user)
+        const client = await Client.findOrFail(id)
+        return response.send(client)
     }
 
     async update({ params: { id }, request, response }) {
-        const user = await User.findOrFail(id)
+        const client = await Client.findOrFail(id)
         try {
-            const { email, password, role } = request.all()
-            user.merge({ email, password, role })
-            user.save()
-            return response.send(user)
+        const { name, state, city, neighborhood, street, number, reference } = request.all()
+        client.merge({ name, state, city, neighborhood, street, number, reference })
+        client.save()
+        return response.send(client)
         } catch (error) {
             return response.status(400).send({
                 message: 'Erro ao atualizar usuário'
@@ -45,9 +45,9 @@ class UserController {
     }
 
     async destroy({ params: { id }, request, response }) {
-        const user = await User.findOrFail(id)
+        const client = await Client.findOrFail(id)
         try {
-            await user.delete()
+            await client.delete()
             return response.status(200).send({
                 message: 'Deletado com sucesso!'
             })
@@ -56,8 +56,7 @@ class UserController {
                 message: 'Erro ao excluir usuário'
             })
         }
-
     }
 }
 
-module.exports = UserController
+module.exports = ClientController

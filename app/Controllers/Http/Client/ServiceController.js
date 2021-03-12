@@ -1,24 +1,20 @@
 'use strict'
 
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
-
 const Service = use('App/Models/Service')
 
 class ServiceController {
-    async index({ request, response, view }) {
-        const service = request.input('service')
+    async index({ request, response }) {
+        const search = request.input('search')
         const query = Service.query()
-        if (service) {
-            query.where('service', 'ILIKE', `%${service}%`)
+        if (search) {
+            query.where('service', 'ILIKE', `%${search}%`)
         }
         const services = await query.fetch()
-        return response.send(services)
+        response.send(services)
     }
 
-    async show({ params: { id }, request, response, view }) {
-        const service = await Service.findOrFail(id).with('store')
+    async show({ params: { id }, request, response }) {
+        const service = await Service.findOrFail(id)
         return response.send(service)
     }
 }

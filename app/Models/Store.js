@@ -7,7 +7,7 @@ class Store extends Model {
     static get traits() {
         return ['App/Models/Traits/NoTimestamp']
     }
-    
+
     user() {
         return this.belongsTo('App/Models/User')
     }

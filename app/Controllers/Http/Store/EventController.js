@@ -1,32 +1,50 @@
 'use strict'
 
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
-
 const Event = use('App/Models/Event')
 
 class EventController {
-  async index({ request, response, view }) {
-    const name = request.input('name')
-    const query = Event.query()
-    if (name) {
-      query.where('name', 'ILIKE', `%${name}%`)
+    async index({ request, response }) {
+        const search = request.input('search')
+        const query = Event.query()
+        if (search) {
+            query.where('event_date', 'ILIKE', `%${search}%`)
+        }
+        const events = await query.fetch()
+        response.send(events)
     }
-    const events = await query.with('service').with('client').fetch()
-    return response.send(events)
-  }
 
-  async show({ params: { id }, request, response, view }) {
-    const event = await Event.findOrFail(id).with('service').with('client')
-    return response.send(event)
-  }
+    async show({ params: { id }, request, response }) {
+        const event = await Event.findOrFail(id)
+        return response.send(event)
+    }
 
-  async destroy({ params: { id }, request, response }) {
-    const event = await Event.findOrFail(id)
-    await event.delete()
-    return response.status(204).send({ message: 'Deletado com sucesso!' })
-  }
+    async update({ params: { id }, request, response }) {
+        const event = await Event.findOrFail(id)
+        try {
+            const { store_id, client_id, service_id, event_date, hour, client_hour, status } = request.all()
+            event.merge({ store_id, client_id, service_id, event_date, hour, client_hour, status })
+            event.save()
+            return response.send(event)
+        } catch (error) {
+            return response.status(400).send({
+                message: 'Erro ao atualizar evento'
+            })
+        }
+    }
+
+    async destroy({ params: { id }, request, response }) {
+        const event = await Event.findOrFail(id)
+        try {
+            await event.delete()
+            return response.status(200).send({
+                message: 'Deletado com sucesso!'
+            })
+        } catch (error) {
+            return response.status(500).send({
+                message: 'Erro ao excluir evento'
+            })
+        }
+    }
 }
 
 module.exports = EventController

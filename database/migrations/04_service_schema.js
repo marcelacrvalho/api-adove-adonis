@@ -8,10 +8,9 @@ class ServiceSchema extends Schema {
     this.create('services', (table) => {
       table.increments()
       table.integer('store_id').unsigned().notNullable()
-      table.string('service', 25).notNullable()
-      table.string('price_from', 30)
-      table.string('description', 30)
-      table.string('result', 35)
+      table.string('service', 40)
+      table.string('price_from', 50)
+      table.string('description', 70)
 
       table.foreign('store_id').references('id').inTable('stores').onDelete('cascade').onUpdate('cascade')
     })

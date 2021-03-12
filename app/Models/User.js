@@ -7,7 +7,7 @@ const Model = use('Model')
 const Hash = use('Hash')
 
 class User extends Model {
-  static boot () {
+  static boot() {
     super.boot()
     this.addHook('beforeSave', async (userInstance) => {
       if (userInstance.dirty.password) {
@@ -16,7 +16,15 @@ class User extends Model {
     })
   }
 
-  tokens () {
+  clients() {
+    return this.hasMany('App/Models/Client')
+  }
+
+  stores() {
+    return this.hasMany('App/Models/Store')
+  }
+
+  tokens() {
     return this.hasMany('App/Models/Token')
   }
 }

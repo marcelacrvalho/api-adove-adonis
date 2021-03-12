@@ -19,7 +19,6 @@ class PaymentStore extends Model {
         }
     }
 
-
     store() {
         return this.belongsTo('App/Models/Store')
     }
