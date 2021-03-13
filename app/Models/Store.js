@@ -23,6 +23,10 @@ class Store extends Model {
     paymentStore() {
         return this.hasOne('App/Models/PaymentStore')
     }
+
+    posts() {
+        return this.hasMany('App/Models/Posts')
+    }
 }
 
 module.exports = Store
