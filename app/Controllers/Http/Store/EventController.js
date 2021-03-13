@@ -9,7 +9,7 @@ class EventController {
         if (search) {
             query.where('event_date', 'ILIKE', `%${search}%`)
         }
-        const events = await query.fetch()
+        const events = await query.orderBy('event_date', 'desc').fetch()
         response.send(events)
     }
 
